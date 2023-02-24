@@ -348,6 +348,11 @@ template {
   display: none;
 }
 
+/* OWN STYLES */
+html {
+	background: #1f1f1f;
+}
+
 #root {
 	display: flex;
 	justify-content: center;
@@ -361,3 +366,4 @@ template {
 label, input, button {
 	display: block;
 }
+

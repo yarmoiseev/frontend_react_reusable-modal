@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Card from "../UI/Card/Card";
+import Button from "../UI/Button/Button.jsx";
 
 import styles from "./AddUser.module.css";
 
@@ -15,14 +17,25 @@ const AddUser = (props) => {
   };
 
   const validationHandler = () => {
-    if (enteredName === "") {
-      return "ENTER USER'S NAME!";
-    } else if (enteredAge === "") {
-      return "ENTER USER'S AGE!";
+    if (enteredName.trim().length === 0) {
+      return {
+        title: "Invalid username",
+        text: "Please, enter correct username",
+      };
+    } else if (enteredAge.trim().length === 0) {
+      return {
+        title: "Invalid user age",
+        text: "Please, enter correct user age",
+      };
     } else if (parseInt(enteredAge) <= 0) {
       setEnteredName("");
-      return "USER'S AGE SHOULD BE MORE THAN 0!";
+      return {
+        title: "Invalid user age",
+        text: "User age should be more than zero",
+      };
     }
+    setEnteredName("");
+    setEnteredAge("");
     return false;
   };
 
@@ -32,39 +45,31 @@ const AddUser = (props) => {
     const error = validationHandler();
 
     if (!error) {
-      const userData = {
-        name: enteredName,
-        age: enteredAge,
-      };
-
-      props.onAddUser(userData);
+      props.onAddUser(enteredName, enteredAge);
     } else {
       props.onError(error);
     }
-
-    setEnteredName("");
-    setEnteredAge("");
   };
 
   return (
-    <form onSubmit={formSubmitHandler}>
-      <div>
-        <div className={styles["user-controls"]}>
-          <label>Username</label>
+    <Card className={styles.input}>
+      <form onSubmit={formSubmitHandler}>
+        <label>
+          Username
           <input type="text" value={enteredName} onChange={nameChangeHandler} />
-        </div>
-        <div className={styles["user-controls"]}>
-          <label>Age (years)</label>
+        </label>
+        <label>
+          Age (years)
           <input
             type="number"
             value={enteredAge}
             onChange={ageChangeHandler}
             step="1"
           />
-        </div>
-      </div>
-      <button type="submit">Add User</button>
-    </form>
+        </label>
+        <Button type="submit">Add User</Button>
+      </form>
+    </Card>
   );
 };
 
